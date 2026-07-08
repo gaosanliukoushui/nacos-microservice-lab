@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>选课服务跨域测试</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "Microsoft YaHei", Arial, sans-serif;
+      background: #f6f7fb;
+      color: #1f2937;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+    }
+
+    main {
+      width: min(720px, calc(100vw - 32px));
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    h1 {
+      margin: 0 0 20px;
+      font-size: 24px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    label {
+      font-weight: 600;
+    }
+
+    input {
+      width: 120px;
+      height: 38px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 0 10px;
+      font-size: 16px;
+    }
+
+    button {
+      height: 40px;
+      border: 0;
+      border-radius: 6px;
+      padding: 0 18px;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: 0.65;
+    }
+
+    .status {
+      margin: 0 0 12px;
+      color: #475569;
+      word-break: break-all;
+    }
+
+    pre {
+      min-height: 220px;
+      margin: 0;
+      padding: 16px;
+      border-radius: 8px;
+      background: #0f172a;
+      color: #dbeafe;
+      overflow: auto;
+      white-space: pre-wrap;
+      line-height: 1.55;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>选课服务跨域测试</h1>
+  <div class="controls">
+    <label for="enrollmentId">选课 ID</label>
+    <input id="enrollmentId" type="number" min="1" value="1">
+    <button id="queryButton" type="button">查询</button>
+  </div>
+  <p class="status" id="requestUrl">请求地址：http://localhost:7000/enrollments/1</p>
+  <pre id="result">点击查询后显示网关返回结果。</pre>
+</main>
+
+<script>
+  const input = document.querySelector("#enrollmentId");
+  const button = document.querySelector("#queryButton");
+  const requestUrl = document.querySelector("#requestUrl");
+  const result = document.querySelector("#result");
+
+  function buildUrl() {
+    const id = input.value || "1";
+    return `http://localhost:7000/enrollments/${encodeURIComponent(id)}`;
+  }
+
+  async function queryEnrollment() {
+    const url = buildUrl();
+    requestUrl.textContent = `请求地址：${url}`;
+    button.disabled = true;
+    result.textContent = "请求中...";
+
+    try {
+      const response = await fetch(url);
+      const text = await response.text();
+      const body = text ? JSON.parse(text) : null;
+      result.textContent = JSON.stringify({
+        httpStatus: response.status,
+        ok: response.ok,
+        data: body
+      }, null, 2);
+    } catch (error) {
+      result.textContent = `请求失败：${error.message}`;
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  input.addEventListener("input", () => {
+    requestUrl.textContent = `请求地址：${buildUrl()}`;
+  });
+  button.addEventListener("click", queryEnrollment);
+</script>
+</body>
+</html>

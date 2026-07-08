@@ -19,8 +19,10 @@
     <description>Nacos service discovery microservice lab</description>
 
     <modules>
+        <module>feign-api</module>
         <module>course-service</module>
         <module>enrollment-service</module>
+        <module>api-gateway</module>
     </modules>
 
     <properties>
