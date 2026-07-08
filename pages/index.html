@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>选课服务跨域测试</title>
+  <title>&#36873;&#35838;&#26381;&#21153;&#36328;&#22495;&#27979;&#35797;</title>
   <style>
     :root {
       color-scheme: light;
@@ -91,14 +91,14 @@
 </head>
 <body>
 <main>
-  <h1>选课服务跨域测试</h1>
+  <h1>&#36873;&#35838;&#26381;&#21153;&#36328;&#22495;&#27979;&#35797;</h1>
   <div class="controls">
-    <label for="enrollmentId">选课 ID</label>
+    <label for="enrollmentId">&#36873;&#35838; ID</label>
     <input id="enrollmentId" type="number" min="1" value="1">
-    <button id="queryButton" type="button">查询</button>
+    <button id="queryButton" type="button">&#26597;&#35810;</button>
   </div>
-  <p class="status" id="requestUrl">请求地址：http://localhost:7000/enrollments/1</p>
-  <pre id="result">点击查询后显示网关返回结果。</pre>
+  <p class="status" id="requestUrl">&#35831;&#27714;&#22320;&#22336;: http://localhost:7000/enrollments/1</p>
+  <pre id="result">&#28857;&#20987;&#26597;&#35810;&#21518;&#26174;&#31034;&#32593;&#20851;&#36820;&#22238;&#32467;&#26524;&#12290;</pre>
 </main>
 
 <script>
@@ -114,9 +114,9 @@
 
   async function queryEnrollment() {
     const url = buildUrl();
-    requestUrl.textContent = `请求地址：${url}`;
+    requestUrl.textContent = `\u8bf7\u6c42\u5730\u5740: ${url}`;
     button.disabled = true;
-    result.textContent = "请求中...";
+    result.textContent = "\u8bf7\u6c42\u4e2d...";
 
     try {
       const response = await fetch(url);
@@ -128,14 +128,14 @@
         data: body
       }, null, 2);
     } catch (error) {
-      result.textContent = `请求失败：${error.message}`;
+      result.textContent = `\u8bf7\u6c42\u5931\u8d25: ${error.message}`;
     } finally {
       button.disabled = false;
     }
   }
 
   input.addEventListener("input", () => {
-    requestUrl.textContent = `请求地址：${buildUrl()}`;
+    requestUrl.textContent = `\u8bf7\u6c42\u5730\u5740: ${buildUrl()}`;
   });
   button.addEventListener("click", queryEnrollment);
 </script>
